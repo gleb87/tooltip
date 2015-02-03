@@ -10,6 +10,9 @@
 
   .tooltip {
     /* ваш стиль */
+    position: absolute;
+    z-index: 999;
+    background-color: white;
   }
 
 </style>
@@ -29,7 +32,53 @@
 // подсказка не должна вылезать за экран
 function Tooltip(options) {
   /* ваш код */
-  var a = 1;
+  var $elem = $(options.elem);
+  var html = options.html;
+  var offset = options.offset || 20;
+  var $tip, tipHeight, tipWidth;
+
+  var $body = $(document.body);
+
+  createTip();
+  
+  $elem.on("mouseenter", onElemMouseEnter)
+  .on("mouseleave", onElemMouseLeave);
+
+  function onElemMouseEnter() {
+    showTip();
+  }
+
+  function onElemMouseLeave() {
+    hideTip();
+  }
+
+  function createTip() {
+     $tip = $( document.createElement("div") );
+     $tip.addClass("tooltip");
+     $tip.html(html);
+     $body.append($tip);
+     tipWidth = $tip.outerWidth();
+     tipHeight = $tip.outerHeight();
+     $tip.hide();
+  }
+
+  function showTip() {
+    var top = $elem.offset().top - tipHeight - offset;
+    var left = $elem.offset().left + $elem.width()/2 - tipWidth/2;
+
+    $tip.show(); //before $tip.offset(), because of bug - element get other coordinats when show(), then in offset()
+
+    $tip.offset({
+      top: top,
+      left: left,
+    });
+
+    
+  }
+
+  function hideTip() {
+    $tip.hide();
+  }
 }
 
 new Tooltip({
@@ -43,7 +92,6 @@ new Tooltip({
   html: "HTML<br>подсказка",
   offset: 0
 });
-
 
 </script>
 
