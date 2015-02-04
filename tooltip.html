@@ -36,17 +36,19 @@ function Tooltip(options) {
   /* ваш код */
   var $elem = $(options.elem);
   var html = options.html;
-  var offset = options.offset || 20;
+  var offset = options.offset;
   var $tip, tipHeight, tipWidth;
+
+  if (offset == undefined) offset = 20;
 
   var $body = $(document.body);
 
-  createTip();
 
   $elem.on("mouseenter", onElemMouseEnter)
     .on("mouseleave", onElemMouseLeave);
 
   function onElemMouseEnter() {
+    if (!$tip) createTip();
     showTip();
   }
 
