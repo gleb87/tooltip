@@ -68,6 +68,12 @@ function Tooltip(options) {
     var top = $elem.offset().top - tipHeight - offset;
     var left = $elem.offset().left + $elem.width()/2 - tipWidth/2;
 
+    if (left < 0) left = 0;
+
+    if (top < $body.scrollTop()) {
+      top = $elem.offset().top +  $elem.height() + offset;
+    };
+
     $tip.show(); //before $tip.offset(), because of bug - element get other coordinats when show(), then in offset()
 
     $tip.offset({
