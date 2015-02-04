@@ -57,12 +57,14 @@ function Tooltip(options) {
   }
 
   function createTip() {
-    $tip = $(document.createElement("div"));
-    $tip.addClass("tooltip");
-    $tip.html(html);
-    $body.append($tip);
+    $tip = $("<div/>", {
+      "class": "tooltip",
+      html: html,
+    }).appendTo($body);
+
     tipWidth = $tip.outerWidth();
     tipHeight = $tip.outerHeight();
+
     $tip.hide();
   }
 
